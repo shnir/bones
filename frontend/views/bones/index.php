@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\grid\CheckboxColumn;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -20,13 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'selectionChanged'=>'function(){ location.href = ($(".selected td a:first").attr("href"));}',
+        'rowOptions' => [],
         'columns' => [
 //            ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute'=>'id_exp',
                 'format'=>'raw',
                 'value'=> function($data){
-                    return Html::a($data->id_exp, ['bones/index', 'id_exp' => $data->id_exp]);
+                    return Html::a($data->id_exp, Url::to(['index', 'id_exp' => $data->id_exp]));
                 },
             ],
             //'id_exp',

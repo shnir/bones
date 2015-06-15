@@ -14,12 +14,12 @@ use Yii;
  *
  * @property Experiment $idExp
  */
-class Results extends \yii\db\ActiveRecord
+class ExperimentResults extends \yii\db\ActiveRecord
 {
+    ExperimentResults
     /**
      * @inheritdoc
      */
-    //public $experiment=0;
     public static function tableName()
     {
         return 'results';

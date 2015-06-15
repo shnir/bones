@@ -4,6 +4,16 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\DetailView;
 
+function nod($a,$b){  //Нахождение наибольшего общего делителя
+    if ($a>$b){
+        if ($a%$b) return nod($a%$b,$b);
+        else return $b;
+    }
+    else {
+        if ($b%$a) return nod($b%$a,$a);
+        else return $a;
+    }
+}
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Results */
@@ -24,14 +34,22 @@ $this->params['breadcrumbs'][] = $this->title;
             //'selectionChanged'=>'function(){ location.href = ($(".selected td a:first").attr("href"));}',
             'columns' => [
 //            ['class' => 'yii\grid\SerialColumn'],
-                'id_exp',
+                //'id_exp',
                 'num',
                 'count',
+                'idExp.throws',
                 [
                     'label'=>'% соотношение',
-                    //'format'=>'raw',
+                    'format'=>'raw',
                     'value'=> function($data){
-                        return number_format($data['count'] / $exp->throws * 100, 3);
+                        return number_format($data['count'] / $data['idExp']['throws'] * 100, 3);
+                    },
+                ],
+                [
+                    'label'=>'Дробное соотношение',
+                    'format'=>'raw',
+                    'value'=> function($data){
+                        return $data['count']/nod($data['count'],$data['idExp']['throws'])." / ".$data['idExp']['throws']/nod($data['count'],$data['idExp']['throws']);
                     },
                 ],
 //            [

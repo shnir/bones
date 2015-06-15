@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use app\models\Results;
 use app\models\Experiment;
+use app\models\Modelexp;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -61,8 +62,10 @@ class BonesController extends Controller
             if(!$exp) {
                 return "Не найден эксперимент!";
             }
+// compose the query
+
             $results = new ActiveDataProvider([
-                'query' => Results::find()->joinWith(['experiment'])->where(['id_exp' => $id_exp]),
+                'query' => Results::find()->where(['id_exp' => $id_exp]),//"select * from results left join experiment using (id_exp) where id_exp = $id_exp",//Results::find()->joinWith(Experiment::find())->where(['id_exp' => $id_exp]),
             ]);
 
             if(!$results) {
