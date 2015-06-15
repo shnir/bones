@@ -37,12 +37,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'bones_num',
             'throws',
-//            [
-//                'class'=> ActionColumn::className(),
-//                'template'=>'{view}',
-//               ],
-//            ['class' => DataColumn::className()],
-//            ['class' => CheckboxColumn::className()],
+            /*[
+                'class'=> ActionColumn::className(),
+                'template'=>'{view}',
+               ],
+            ['class' => DataColumn::className()],
+            ['class' => CheckboxColumn::className()],*/
         ],
     ]); ?>
 

@@ -19,7 +19,6 @@ class Results extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    //public $experiment=0;
     public static function tableName()
     {
         return 'results';
@@ -54,6 +53,7 @@ class Results extends \yii\db\ActiveRecord
             'num' => 'Очки',
             'count' => 'Выпадений',
             'id_exp' => '№ эксперимента',
+            'faces' => 'Количество граней',
         ];
     }
 

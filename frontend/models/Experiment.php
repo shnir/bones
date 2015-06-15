@@ -67,7 +67,7 @@ class Experiment extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     public function getResults()
-    {
-        return $this->hasMany(Results::className(), ['id_exp' => 'id_exp']);
-    }
+{
+return $this->hasMany(Results::className(), ['id_exp' => 'id_exp']);
+}
 }

@@ -26,6 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    Эксперимент проводил: <?= $exp->name ?><br>
+    Дата: <?= $exp->date, " ",$exp->time ?><br>
+    Количество бросков: <?= $exp->throws ?><br>
+    Количество бросаемых костей: <?= $exp->bones_num ?><br>
+    Количество граней каждого кубика: <?= $exp->faces ?><br>
+
     <p>
         <? //var_dump($exp);
         //var_dump($dataProvider);?>
