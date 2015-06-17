@@ -54,38 +54,36 @@ class BonesController extends Controller
      */
     public function actionIndex()
     {
-        $model = new Results();
+        return $this->render('index');
+    }
 
-        if ($id_exp = Yii::$app->request->get('id_exp')){
-            echo $id_exp;
+
+    /**
+     * Displays Experiments and Results model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView()
+    {
+        if (false!==($id_exp = Yii::$app->request->get('id_exp'))){
+
             $exp = Experiment::findOne($id_exp);
+
             if(!$exp) {
                 return "Не найден эксперимент!";
             }
-// compose the query
+            // compose the query
 
             $results = new ActiveDataProvider([
-                'query' => Results::find()->where(['id_exp' => $id_exp]),//"select * from results left join experiment using (id_exp) where id_exp = $id_exp",//Results::find()->joinWith(Experiment::find())->where(['id_exp' => $id_exp]),
+                'query' => Results::find()->where(['id_exp' => $id_exp]),
             ]);
 
-            if(!$results) {
-                return "Не найдено ни одного результата!";
-            }
-
-            return $this->render('view', [
+            return $this->render('viewResult', [
                 'exp' => $exp,
                 'results' => $results,
             ]);
-/*
-            $dataProvider = new ActiveDataProvider([
-                'query' => Results::find('id_exp' => $model->id_exp);
-            ]);
-
-            return $this->render('view', [
-                'dataProvider' => $dataProvider,
-            ]);*/
-
         }
+
         $dataProvider = new ActiveDataProvider([
             'query' => experiment::find(),
             'pagination' => [
@@ -93,23 +91,10 @@ class BonesController extends Controller
             ],
         ]);
 
-        return $this->render('index', [
+        return $this->render('viewExp', [
             'dataProvider' => $dataProvider,
         ]);
     }
-
-    /**
-     * Displays a single Results model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
     /**
      * Creates a new Results model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -117,13 +102,28 @@ class BonesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Results();
+        $exp = new Experiment();
+        //$exp = Experiment::findOne($id_exp);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_result]);
-        } else {
+        if ($exp->load(Yii::$app->request->get())){
+
+            $results = $exp->create();
+            $exp->date = date("Y-m-d");
+            $exp->time = date("H:i:s");
+            $exp->save();
+            foreach ($results as $key=>$count){
+                $result = new Results();
+                $result->count = $count;
+                $result->id_exp = $exp->id_exp;
+                $result->num = $key;
+                $result->save();
+            }
+
+            return $this->redirect(['view', 'id_exp' => $exp->id_exp]);
+        }
+        else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $exp,
             ]);
         }
     }

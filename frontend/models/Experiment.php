@@ -41,9 +41,9 @@ class Experiment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'time', 'name', 'bones_num', 'throws'], 'required'],
+            [['date', 'time', 'name', 'bones_num', 'faces', 'throws'], 'required'],
             [['date', 'time'], 'safe'],
-            [['bones_num', 'throws'], 'integer'],
+            [['bones_num', 'faces', 'throws'], 'integer'],
             [['name'], 'string', 'max' => 30]
         ];
     }
@@ -59,8 +59,26 @@ class Experiment extends \yii\db\ActiveRecord
             'time' => 'Время проведения',
             'name' => 'Экспериментатор',
             'bones_num' => 'Количество костей',
+            'faces' => 'Количество граней',
             'throws' => 'Количество бросков',
         ];
+    }
+
+    /** new experiment */
+
+    public function create(){
+        $num[]=$this->throws;
+        $num[]=$this->bones_num;
+        $num[]=$this->faces;
+        //return $num;
+        for ($i = 0; $i < $this->throws; $i++) {
+            $sum = 0;
+            for ($j = 0; $j < $this->bones_num; $j++)
+                $sum += rand(1, $this->faces);
+            @$num[$sum]++;
+        }
+        sort($num);
+        return $num;
     }
 
     /**
